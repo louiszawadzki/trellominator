@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
 import Trello from './services/Trello';
-import BoardsList from './components/BoardsList/BoardsList';
+import List from './components/List/List';
 import Board from './components/Board/Board';
 
 // Rendering a simple centered box
@@ -30,7 +30,7 @@ class App extends Component {
         width="100%"
         height="100%"
       >
-        {Object.keys(this.state.board).length === 0 && <BoardsList
+        {Object.keys(this.state.board).length === 0 && <List
           onSelect={(item) => this.selectBoard(this.state.boards[item.index - 2])}
           items={this.state.boards.map(board => board.name)}
           ref="boards"

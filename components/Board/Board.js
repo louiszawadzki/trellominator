@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
+import List from '../List/List';
 
 // Rendering a simple centered box
 export default class BoardsList extends Component {
@@ -18,18 +19,7 @@ export default class BoardsList extends Component {
   render() {
     return (
       <box>
-        <list
-          top="center"
-          width="30%"
-          height="100%"
-          border={{type: 'line'}}
-          style={{
-            border: {fg: 'blue'},
-            selected: {fg: 'white', bg: 'black'},
-          }}
-          interactive={true}
-          keys={true}
-          mouse={true}
+        <List
           onSelect={item => this.selectList(this.props.lists[item.index - 4])}
           items={this.props.lists.map(list => list.name)}
        />
@@ -39,6 +29,7 @@ export default class BoardsList extends Component {
          left="30%"
        >
          Selected List: {this.state.list.name}
+
        </box>
      </box>
     );

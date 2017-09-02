@@ -3,7 +3,7 @@ import blessed from 'blessed';
 import {render} from 'react-blessed';
 
 // Rendering a simple centered box
-export default class BoardsList extends Component {
+export default class List extends Component {
   render() {
     return (
       <list
