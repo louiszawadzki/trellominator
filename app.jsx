@@ -12,6 +12,7 @@ class App extends Component {
       boards: [],
       board: {},
       lists: [],
+      me: {},
     }
   }
   selectBoard(board) {
@@ -19,6 +20,7 @@ class App extends Component {
     Trello.fetchLists(board, lists => this.setState({lists}));
   }
   componentDidMount() {
+    Trello.fetchMe(me => this.setState({me}));
     Trello.fetchBoards(boards => this.setState({boards}));
   }
   render() {
@@ -39,6 +41,7 @@ class App extends Component {
          height="100%"
        >
         <Board
+          me={this.state.me}
           lists={this.state.lists}
         />
        </box>}

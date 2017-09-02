@@ -17,12 +17,23 @@ Trello.fetchCards = (list, callback) => t.get(`/1/lists/${list.id}/cards`, funct
   callback(cards);
 });
 
+Trello.fetchMe = callback => t.get("/1/members/me", function(err, me) {
+  if (err) throw err;
+  callback(me);
+});
+
+Trello.assignToMyself = (card, me) => {
+  card.idMembers.push(me.id);
+  t.put(`/1/cards/${card.id}/idMembers?value=${card.idMembers}`, function(err, data) {
+    if (err) console.log(err);
+    return data;
+  });
+};
+
 Trello.moveToNextColumn = (card, lists) => {
   const newListId = lists[lists.findIndex(list => list.id === card.idList) + 1].id;
   t.put(`/1/cards/${card.id}/idList?value=${newListId}`, function(err, data) {
-    console.log(err);
     if (err) throw err;
-    console.log(data);
     return data;
   });
 };

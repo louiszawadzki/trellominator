@@ -4,6 +4,7 @@ import {render} from 'react-blessed';
 import Trello from '../../services/Trello';
 
 const actions = [
+  'Assign myself to card',
   'Move to next column',
 ]
 
@@ -15,8 +16,17 @@ export default class ActionsList extends Component {
   componentDidMount() {
     this.refs.actions.focus();
   }
-  onSelect() {
-    Trello.moveToNextColumn(this.props.card, this.props.lists)
+  onSelect(item) {
+    switch (item.content) {
+      case actions[0]:
+        Trello.assignToMyself(this.props.card, this.props.me)
+        break;
+      case actions[1]:
+        Trello.moveToNextColumn(this.props.card, this.props.lists)
+        break;
+      default:
+        return true;
+    }
   }
   render() {
     return (

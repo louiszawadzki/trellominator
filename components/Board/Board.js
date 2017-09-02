@@ -55,6 +55,7 @@ export default class BoardsList extends Component {
              <ActionsList
                card={this.state.card}
                lists={this.props.lists}
+               me={this.props.me}
              />
            </box>
          }
