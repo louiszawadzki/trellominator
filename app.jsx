@@ -9,28 +9,47 @@ class App extends Component {
     super();
     this.state = {
       boards: [],
+      board: '',
     }
   }
   componentDidMount() {
+    this.refs.boards.focus();
     Trello.fetchBoards(boards => this.setState({
       boards,
     }));
   }
   render() {
     return (
-      <list
+      <box
         top="center"
         left="center"
         width="100%"
         height="100%"
-        border={{type: 'line'}}
-        style={{border: {fg: 'blue'}}}
-        interactive={true}
-        keys={true}
-        mouse={true}
-        select={(e) => console.log(e)}
-        items={this.state.boards.map(board => board.name)}
-     />
+      >
+        <list
+          top="center"
+          width="30%"
+          height="100%"
+          border={{type: 'line'}}
+          style={{
+            border: {fg: 'blue'},
+            selected: {fg: 'white', bg: 'black'},
+          }}
+          interactive={true}
+          keys={true}
+          mouse={true}
+          onSelect={(item) => this.setState({board: this.state.boards[item.index]})}
+          items={this.state.boards.map(board => board.name)}
+          ref="boards"
+       />
+       <box
+         left="30%"
+         width="40%"
+         height="20%"
+       >
+        Selected board: {this.state.board.name}
+       </box>
+     </box>
     );
   }
 }
