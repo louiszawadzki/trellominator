@@ -12,4 +12,9 @@ Trello.fetchLists = (board, callback) => t.get(`/1/boards/${board.id}/lists`, fu
   callback(lists);
 });
 
+Trello.fetchCards = (list, callback) => t.get(`/1/lists/${list.id}/cards`, function(err, cards) {
+  if (err) throw err;
+  callback(cards);
+});
+
 export default Trello;

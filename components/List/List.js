@@ -4,11 +4,14 @@ import {render} from 'react-blessed';
 
 // Rendering a simple centered box
 export default class List extends Component {
+  componentDidMount() {
+    this.refs.list.focus();
+  }
   render() {
     return (
       <list
         top="center"
-        width="30%"
+        width={this.props.width || "30%"}
         height="100%"
         border={{type: 'line'}}
         style={{
@@ -20,6 +23,7 @@ export default class List extends Component {
         mouse={true}
         onSelect={this.props.onSelect}
         items={this.props.items}
+        ref="list"
      />
     );
   }
