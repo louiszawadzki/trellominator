@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
 import Card from '../Card/Card';
+import ActionsList from '../ActionsList/ActionsList';
 import List from '../List/List';
 import Trello from '../../services/Trello';
 
-// Rendering a simple centered box
 export default class BoardsList extends Component {
   constructor() {
     super();
@@ -20,7 +20,7 @@ export default class BoardsList extends Component {
     Trello.fetchCards(list, cards => this.setState({cards}));
   }
   selectCard(content) {
-    const card = this.state.cards.filter(card => `#${card.idShort} - ${card.name}` === content)[0];
+    const card = this.state.cards.find(card => `#${card.idShort} - ${card.name}` === content);
     this.setState({card})
   }
   render() {
@@ -40,7 +40,24 @@ export default class BoardsList extends Component {
            items={this.state.cards.map(card => `#${card.idShort} - ${card.name}`)}
            onSelect={item => this.selectCard(item.content)}
          />}
-         {Object.keys(this.state.card).length !== 0 && <Card card={this.state.card} />}
+         {Object.keys(this.state.card).length !== 0 && <Card
+           card={this.state.card}
+           list={this.state.list}
+         />}
+         {Object.keys(this.state.card).length !== 0 &&
+           <box
+             top="51%"
+             left="50%"
+             height="40%"
+             width="50%"
+           >
+             <text>Actions:</text>
+             <ActionsList
+               card={this.state.card}
+               lists={this.props.lists}
+             />
+           </box>
+         }
        </box>
      </box>
     );

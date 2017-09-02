@@ -5,7 +5,6 @@ import Trello from './services/Trello';
 import List from './components/List/List';
 import Board from './components/Board/Board';
 
-// Rendering a simple centered box
 class App extends Component {
   constructor() {
     super();
@@ -39,7 +38,6 @@ class App extends Component {
          width="100%"
          height="100%"
        >
-        Selected board: {this.state.board.name}
         <Board
           lists={this.state.lists}
         />
@@ -54,7 +52,7 @@ class App extends Component {
 const screen = blessed.screen({
   autoPadding: true,
   smartCSR: true,
-  title: 'react-blessed hello world'
+  title: 'Trellominator'
 });
 
 // Adding a way to quit the program

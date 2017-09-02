@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
 
-// Rendering a simple centered box
 export default class List extends Component {
   componentDidMount() {
     this.refs.list.focus();
