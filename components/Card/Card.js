@@ -14,6 +14,7 @@ export default class Card extends Component {
         border={{type: 'line'}}
         style={{
           border: {fg: 'blue'},
+          bg: this.props.assignedToMe ? '#ad3412' : '',
         }}
      >
        <box

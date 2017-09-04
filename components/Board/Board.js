@@ -43,6 +43,7 @@ export default class BoardsList extends Component {
          {Object.keys(this.state.card).length !== 0 && <Card
            card={this.state.card}
            list={this.state.list}
+           assignedToMe={this.state.card.idMembers.indexOf(this.props.me.id) !== -1}
          />}
          {Object.keys(this.state.card).length !== 0 &&
            <box
