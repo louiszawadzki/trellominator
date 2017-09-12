@@ -47,9 +47,9 @@ export default class BoardsList extends Component {
          />}
          {Object.keys(this.state.card).length !== 0 &&
            <box
-             top="51%"
+             top="31%"
              left="50%"
-             height="40%"
+             height="65%"
              width="50%"
            >
              <text>Actions:</text>

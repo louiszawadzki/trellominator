@@ -9,7 +9,7 @@ export default class Card extends Component {
       <box
         top="0%"
         width="50%"
-        height="50%"
+        height="30%"
         left="50%"
         border={{type: 'line'}}
         style={{
@@ -19,7 +19,7 @@ export default class Card extends Component {
      >
        <box
          top="0%"
-         height="20%"
+         height="40%"
          width="90%"
          border={{type: 'line'}}
          style={{
@@ -29,8 +29,8 @@ export default class Card extends Component {
          {this.props.list.name}
        </box>
       <box
-        top="22%"
-        height="20%"
+        top="45%"
+        height="40%"
         width="90%"
         border={{type: 'line'}}
         style={{

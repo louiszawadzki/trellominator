@@ -38,4 +38,11 @@ Trello.moveToNextColumn = (card, lists) => {
   });
 };
 
+Trello.postComment = (card, message) => {
+  t.post(`/1/cards/${card.id}/actions/comments?text=${message}`, function(err, data) {
+    if (err) console.log(error);
+    return data;
+  })
+}
+
 export default Trello;
