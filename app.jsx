@@ -4,6 +4,8 @@ import {render} from 'react-blessed';
 import Trello from './services/Trello';
 import List from './components/List/List';
 import Board from './components/Board/Board';
+import Logger from './components/Logger/Logger';
+import LoggerService from './services/LoggerService';
 
 class App extends Component {
   constructor() {
@@ -13,6 +15,8 @@ class App extends Component {
       board: {},
       lists: [],
       me: {},
+      logs: [],
+      logger: {},
     }
   }
   selectBoard(board) {
@@ -22,30 +26,34 @@ class App extends Component {
   componentDidMount() {
     Trello.fetchMe(me => this.setState({me}));
     Trello.fetchBoards(boards => this.setState({boards}));
+    LoggerService.push('Trellominator launched');
   }
   render() {
     return (
-      <box
-        top="center"
-        left="center"
-        width="100%"
-        height="100%"
-      >
-        {Object.keys(this.state.board).length === 0 && <List
-          onSelect={(item) => this.selectBoard(this.state.boards[item.index - 2])}
-          items={this.state.boards.map(board => board.name)}
-          ref="boards"
-       />}
-       {Object.keys(this.state.board).length !== 0 && <box
-         width="100%"
-         height="100%"
-       >
-        <Board
-          me={this.state.me}
-          lists={this.state.lists}
-        />
-       </box>}
-
+      <box>
+        <box
+          top="0%"
+          left="center"
+          width="100%"
+          height="88%"
+        >
+          {Object.keys(this.state.board).length === 0 && <List
+            onSelect={(item) => this.selectBoard(this.state.boards.find(board => board.name === item.content))}
+            items={this.state.boards.map(board => board.name)}
+            ref="boards"
+         />}
+         {Object.keys(this.state.board).length !== 0 && <box
+           width="100%"
+           top="0%"
+           height="88%"
+         >
+          <Board
+            me={this.state.me}
+            lists={this.state.lists}
+          />
+         </box>}
+       </box>
+       <Logger />
      </box>
     );
   }

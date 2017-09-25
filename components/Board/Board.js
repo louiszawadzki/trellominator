@@ -27,7 +27,7 @@ export default class BoardsList extends Component {
     return (
       <box>
         <List
-          onSelect={item => this.selectList(this.props.lists[item.index - 4])}
+          onSelect={item => this.selectList(this.props.lists.find(list => list.name === item.content))}
           items={this.props.lists.map(list => list.name)}
        />
        <box
