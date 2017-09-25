@@ -29,7 +29,7 @@ export default class ActionsList extends Component {
           border: {fg: 'blue'},
         }}
       >
-        <box width={9} height={3}>Comment (use %0A for newlines): </box>
+        <box width={33} height={3}>Comment (use %0A for newlines): </box>
         <textbox
           onSubmit={this.submit}
           height={3}

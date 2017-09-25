@@ -3,73 +3,93 @@ var NodeTrello = require("node-trello");
 var t = new NodeTrello(process.env.TRELLO_API_KEY, process.env.TRELLO_API_TOKEN);
 const Trello = {};
 
-Trello.fetchBoards = callback => t.get("/1/members/me/boards", function(err, boards) {
-  if (err) {
-    LoggerService.push(`error loading boards: ${err.message}`);
-  } else {
-    LoggerService.push('boards loaded');
-    callback(boards);
-  }
-});
+const API = {
+  get: (url, callback, dataType) => {
+    LoggerService.push(`Loading ${dataType}`);
+    t.get(url, function(err, data) {
+      if (err) {
+        LoggerService.push(`Error loading ${dataType}: ${err.message}`);
+      } else {
+        LoggerService.push(`Successfully loaded ${dataType}`);
+        callback(data);
+      }
+    });
+  },
+  put: (url, requestMessage, successMessage, errorMessage) => {
+    LoggerService.push(requestMessage);
+    t.put(url, function(err, data) {
+      if (err) {
+        LoggerService.push(`${errorMessage}: ${err.message}`);
+      } else {
+        LoggerService.push(successMessage);
+      }
+      return data;
+    });
+  },
+  post: (url, requestMessage, successMessage, errorMessage) => {
+    LoggerService.push(requestMessage);
+    t.post(url, function(err, data) {
+      if (err) {
+        LoggerService.push(`${errorMessage}: ${err.message}`);
+      } else {
+        LoggerService.push(successMessage);
+      }
+      return data;
+    });
+  },
+}
 
-Trello.fetchLists = (board, callback) => t.get(`/1/boards/${board.id}/lists`, function(err, lists) {
-  if (err) {
-    LoggerService.push(`error loading lists: ${err.message}`);
-  } else {
-    LoggerService.push('lists loaded');
-    callback(lists);
-  }});
+Trello.fetchBoards = callback => API.get(
+  '/1/members/me/boards',
+  callback,
+  'boards',
+);
 
-Trello.fetchCards = (list, callback) => t.get(`/1/lists/${list.id}/cards`, function(err, cards) {
-  if (err) {
-    LoggerService.push(`error loading cards: ${err.message}`);
-  } else {
-    LoggerService.push('cards loaded');
-    callback(cards);
-  }
-});
+Trello.fetchLists = (board, callback) => API.get(
+  `/1/boards/${board.id}/lists`,
+  callback,
+  'lists',
+);
 
-Trello.fetchMe = callback => t.get("/1/members/me", function(err, me) {
-  if (err) {
-    LoggerService.push(`error loading me: ${err.message}`);
-  } else {
-    LoggerService.push('personal info loaded');
-    callback(me);
-  }
-});
+Trello.fetchCards = (list, callback) => API.get(
+  `/1/lists/${list.id}/cards`,
+  callback,
+  'cards',
+);
+
+Trello.fetchMe = callback => API.get(
+  '/1/members/me',
+  callback,
+  'personal info',
+);
 
 Trello.assignToMyself = (card, me) => {
   card.idMembers.push(me.id);
-  t.put(`/1/cards/${card.id}/idMembers?value=${card.idMembers}`, function(err, data) {
-    if (err) {
-      LoggerService.push(`error assigning card: ${err.message}`);
-    } else {
-      LoggerService.push(`Card ${card.id} assigned to myself`);
-    }
-    return data;
-  });
+  API.put(
+    `/1/cards/${card.id}/idMembers?value=${card.idMembers}`,
+    `Assigning card ${card.id} to myself`,
+    'Error assigning card',
+    `Card ${card.id} assigned to myself`,
+  );
 };
 
 Trello.moveToNextColumn = (card, lists) => {
   const newListId = lists[lists.findIndex(list => list.id === card.idList) + 1].id;
-  t.put(`/1/cards/${card.id}/idList?value=${newListId}`, function(err, data) {
-    if (err) {
-      LoggerService.push(`error moving card to next column ${err.message}`);
-    } else {
-      LoggerService.push(`Card ${card.id} moved to next column`);
-    }
-    return data;
-  });
+  API.put(
+    `/1/cards/${card.id}/idList?value=${newListId}`,
+    `Moving card ${card.id} to next Column`,
+    'Error assigning card',
+    `Card ${card.id} assigned to myself`,
+  );
 };
 
 Trello.postComment = (card, message) => {
-  t.post(`/1/cards/${card.id}/actions/comments?text=${message}`, function(err, data) {
-    if (err) {
-      LoggerService.push(`error posting comment: ${err.message}`);
-    } else {
-      LoggerService.push(`Commented ${card.id} successfully`);
-    }
-  })
+  API.post(
+    `/1/cards/${card.id}/actions/comments?text=${message}`,
+    'Posting Comment',
+    'Error posting comment',
+    `Commented ${card.id} successfully`,
+  );
 }
 
 export default Trello;

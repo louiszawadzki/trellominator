@@ -19,7 +19,7 @@ export default class Card extends Component {
       <list
         top="88%"
         width="100%"
-        height="10%"
+        height="14%"
         border={{type: 'line'}}
         style={{
           border: {fg: 'green'},
